@@ -3,13 +3,16 @@
 
 #include <string>
 
+#include "Timing/Timing.h"
+#include "Subsystems/SubsystemController.h"
+
 namespace RBC {
 
   /**
    * @brief Main Derived class for creating a RobotCoreLib Robot
    * 
    */
-  class RobotBase {
+  class RobotBase : public Subsystems::SubsystemController {
    public:
     RobotBase(const std::string &name = "RBC-Program", int argc = 0, char** argv = (char**)"");
     virtual ~RobotBase();
@@ -72,6 +75,19 @@ namespace RBC {
     }
 
     /**
+     * @brief Get the Up Time in seconds
+     * 
+     * @return double 
+     */
+    double getUpTime() {
+      return RBC::Timing::RBCTimer::getTimestamp_s();
+    }
+
+    double getDt() {
+      return _dt;
+    }
+
+    /**
      * @brief Get the Name of the robot
      * 
      * @return std::string 
@@ -99,6 +115,8 @@ namespace RBC {
     static RobotBase *_instance;
     bool _running = false;
     bool _enabled = false;
+
+    double _dt = 0;
 
     int _returner = 0;
     int _argc;

@@ -50,6 +50,6 @@ int main(int argc, char** argv) {
    * 
    */
   delete robot;
-  RBC_CORE_PRINT_INFO("Robot Program Ended");
+  RBC_CORE_PRINT_WARN("Robot Program Ended");
   return returner;
 }
