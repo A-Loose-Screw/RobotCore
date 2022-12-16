@@ -5,11 +5,12 @@
 class Robot : public RBC::RobotBase {
  public:
   Robot(int argc, char** argv) : RBC::RobotBase("Levi-Test", argc, argv) {
-    ::testing::InitGoogleTest(&argc, argv);
+    // ::testing::InitGoogleTest(&argc, argv);
   }
 
   void robotInit() override {
-    shutdown(RUN_ALL_TESTS());
+    shutdown(0);
+    // shutdown(RUN_ALL_TESTS());
   }
   void robotPeriodic() override {}
 

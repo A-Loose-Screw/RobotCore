@@ -1,6 +1,10 @@
 #ifndef RBC_PLATFORM_DETECTION_H
 #define RBC_PLATFORM_DETECTION_H
 
+/**
+ * @brief Detect platform
+ * 
+ */
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
   #define RBC_PLATFORM_WINDOWS
 
@@ -36,5 +40,16 @@
   #error "Unknown compiler"
 #endif
 
+/**
+ * @brief Detect compiler
+ * 
+ */
+#if defined(__clang__)
+  #define RBC_CLANG
+#elif defined(__GNUC__) || defined(__GNUG__)
+  #define RBC_GCC
+#elif defined(_MSC_VER)
+  #define RBC_MSC
+#endif
 
 #endif

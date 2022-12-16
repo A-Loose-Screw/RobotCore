@@ -2,6 +2,7 @@
 #define RBC_TIMING_H
 
 #include <chrono>
+#include "PlatformUtils/Platform.h"
 
 namespace RBC {
   namespace Timing {
@@ -32,7 +33,13 @@ namespace RBC {
        * @brief high resolution time_stamp
        * 
        */
+      #ifdef RBC_MSC
+      typedef std::chrono::high_resolution_clock::time_point time_stamp;
+      #elif defined(RBC_GCC) || defined(RBC_CLANG)
       typedef std::chrono::_V2::high_resolution_clock::time_point time_stamp;
+      #else
+      #error "Compiler not supported"
+      #endif
 
       /**
        * @brief Get the System Timestamp
