@@ -4,9 +4,11 @@ using namespace RBC;
 
 RobotBase *RobotBase::_instance = nullptr;
 
-RobotBase::RobotBase(const std::string &name) {
+RobotBase::RobotBase(const std::string &name, int argc, char** argv) {
   _instance = this;
   _name = name;
+  _argc = argc;
+  _argv = argv;
 }
 
 RobotBase::~RobotBase() {}
@@ -36,9 +38,10 @@ int RobotBase::run() {
     }
   }
 
-  return 0;
+  return _returner;
 }
 
-void RobotBase::shutdown() {
+void RobotBase::shutdown(int returner) {
+  _returner = returner;
   _running = false;
 }

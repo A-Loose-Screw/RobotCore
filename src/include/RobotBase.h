@@ -11,7 +11,7 @@ namespace RBC {
    */
   class RobotBase {
    public:
-    RobotBase(const std::string &name = "RBC-Program");
+    RobotBase(const std::string &name = "RBC-Program", int argc = 0, char** argv = (char**)"");
     virtual ~RobotBase();
 
     /**
@@ -84,19 +84,32 @@ namespace RBC {
      * @brief Shutdown the robot
      * 
      */
-    void shutdown();
+    void shutdown(int returner = 0);
+
+    /**
+     * @brief Get the Args object
+     * 
+     * @return std::pair<int, char**> 
+     */
+    std::pair<int, char**> getArgs() {
+      return {_argc, _argv};
+    }
 
    private:
     static RobotBase *_instance;
     bool _running = false;
     bool _enabled = false;
 
+    int _returner = 0;
+    int _argc;
+    char** _argv;
+
     std::string _name;
   };
 
-  RobotBase *createRobot();
+  RobotBase *createRobot(int argc, char** argv);
 }
 
-#define RBC_ROBOT_MAIN(ROBOT) RBC::RobotBase *RBC::createRobot() { return new ROBOT(); }
+#define RBC_ROBOT_MAIN(ROBOT) RBC::RobotBase *RBC::createRobot(int argc, char** argv) { return new ROBOT(argc, argv); }
 
 #endif
