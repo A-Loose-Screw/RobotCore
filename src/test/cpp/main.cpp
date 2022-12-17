@@ -1,6 +1,6 @@
 #include "RobotCore.h"
 
-#include "gtest/gtest.h"
+// #include "gtest/gtest.h"
 
 class Robot : public RBC::RobotBase {
  public:
