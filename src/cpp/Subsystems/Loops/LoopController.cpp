@@ -66,7 +66,7 @@ void LoopController::update() {
 
   if (_control_loop_frequency > 0) {
     _next += (1000ms/_control_loop_frequency);
-    std::this_thread::sleep_until(_next);
+    RBCTimer::sleepUntil(_next);
   }
 }
 

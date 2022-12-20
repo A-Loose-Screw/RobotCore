@@ -25,13 +25,13 @@ void LoopSystem::update() {
   _prev = _now;
   _now = RBCTimer::getSystemTimestamp();
 
-  double dt = (duration_cast<duration<double, std::milli>>(_now-_prev).count())/1000.0;
+  double dt = RBCTimer::getDuration_s(_prev, _now);
   onUpdate(dt);
 
   if (_freq > 0) {
     _next += (1000ms/_freq);
-    std::this_thread::sleep_until(_next);
-  } 
+    RBCTimer::sleepUntil(_next);
+  }
 }
 
 void LoopSystem::manual_update() {
@@ -44,7 +44,7 @@ void LoopSystem::manual_update() {
   _prev = _now;
   _now = RBCTimer::getSystemTimestamp();
 
-  double dt = (duration_cast<duration<double, std::milli>>(_now-_prev).count())/1000.0;
+  double dt = RBCTimer::getDuration_s(_prev, _now);
   onUpdate(dt);
 }
 

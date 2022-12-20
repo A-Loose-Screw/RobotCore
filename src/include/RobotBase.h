@@ -83,6 +83,11 @@ namespace RBC {
       return RBC::Timing::RBCTimer::getTimestamp_s();
     }
 
+    /**
+     * @brief Get the Delta Time in seconds
+     * 
+     * @return double 
+     */
     double getDt() {
       return _dt;
     }
