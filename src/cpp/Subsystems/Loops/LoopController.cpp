@@ -51,9 +51,11 @@ void LoopController::stopLoops() {
   }
 }
 
-void LoopController::update() {
+void LoopController::updateLoopController() {
   _prev = _now;
   _now = RBCTimer::getSystemTimestamp();
+
+  _dt = RBCTimer::getDuration_s(_prev, _now);
 
   // Loop Code Start
   for (auto &loop : _loopScheduleList) {
@@ -72,7 +74,7 @@ void LoopController::update() {
 
 void LoopController::AsyncLoop::loop() {
   while (async_running) {
-    system->update();
+    system->updateLoop();
   }
 }
 

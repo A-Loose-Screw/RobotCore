@@ -3,10 +3,21 @@
 #include <iomanip>
 #include "Subsystems/Loops/LoopSystem.h"
 #include "Logging/Print.h"
+#include "PlatformUtils/Platform.h"
+
+#ifdef RBS_PLATFORM_WINDOWS
+#include <windows.h>
+LARGE_INTEGER frequency, start, current;
+
+QueryPerformanceFrequency(&frequency);
+QueryPerformanceCounter(&start);
+#endif
 
 using namespace RBC::Subsystems::Loops;
 using namespace RBC::Timing;
 using namespace std::chrono;
+
+
 
 void LoopSystem::setLoop(unsigned int hz) {
   if (hz > 0 && hz < 1000000) {
@@ -14,7 +25,7 @@ void LoopSystem::setLoop(unsigned int hz) {
   }
 }
 
-void LoopSystem::update() {
+void LoopSystem::updateLoop() {
   if (!_start) return;
   if (!_running) {
     _next = RBCTimer::getSystemTimestamp();
@@ -26,7 +37,8 @@ void LoopSystem::update() {
   _now = RBCTimer::getSystemTimestamp();
 
   double dt = RBCTimer::getDuration_s(_prev, _now);
-  onUpdate(dt);
+  _dt = dt;
+  onLoopUpdate(dt);
 
   if (_freq > 0) {
     _next += (1000ms/_freq);
@@ -45,19 +57,21 @@ void LoopSystem::manual_update() {
   _now = RBCTimer::getSystemTimestamp();
 
   double dt = RBCTimer::getDuration_s(_prev, _now);
-  onUpdate(dt);
+  _dt = dt;
+
+  onLoopUpdate(dt);
 }
 
 void LoopSystem::startLoop(unsigned int hz) {
   if (hz > 0) setLoop(hz);
   _start = true;
-  onStart();
+  onLoopStart();
 }
 
 void LoopSystem::stopLoop() {
   _start = false;
   _running = false;
-  onStop();
+  onLoopStop();
 }
 
 bool LoopSystem::isLoopRunning() {

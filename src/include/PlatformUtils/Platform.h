@@ -16,6 +16,7 @@
 #elif defined(__APPLE__) || defined(__MACH__)
   #include <TargetConditionals.h>
   #define RBC_PLATFORM_UNIX
+  #define RBC_PLATFORM_APPLE
 
   #if TARGET_IPHONE_SIMULATOR
     // iOS, tvOS, or watchOS Simulator

@@ -61,7 +61,7 @@ int RobotBase::run() {
      * -------- Start Main Code
      */
     robotPeriodic();
-    update();
+    updateLoopController();
     if (_enabled) {
       enabledPeriodic();
     }

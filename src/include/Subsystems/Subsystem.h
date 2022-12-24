@@ -12,9 +12,9 @@ namespace RBC {
         _name = name;
       }
 
-      virtual void onUpdate(double dt) = 0;
-      virtual void onStart() {};
-      virtual void onStop() {};
+      // virtual void onLoopUpdate(double dt) = 0; // override me
+      // virtual void onLoopStart() {};
+      // virtual void onLoopStop() {};
 
      private:
       std::string _name;
