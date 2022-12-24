@@ -13,7 +13,7 @@ namespace RBC {
    * 
    */
   class RobotBase : public Subsystems::SubsystemController {
-   public:
+    public:
     RobotBase(const std::string &name = "RBC-Program", int argc = 0, char** argv = (char**)"");
     virtual ~RobotBase();
 
@@ -116,7 +116,7 @@ namespace RBC {
       return {_argc, _argv};
     }
 
-   private:
+    private:
     static RobotBase *_instance;
     bool _running = false;
     bool _enabled = false;

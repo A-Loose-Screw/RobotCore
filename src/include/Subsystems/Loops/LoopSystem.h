@@ -2,7 +2,9 @@
 #define RBC_LOOP_SYSTEM_H
 
 #include <string>
+#include "PlatformUtils/Platform.h"
 #include "Timing/Timing.h"
+#include "Timing/FrequencyController.h"
 
 namespace RBC {
 namespace Subsystems {
@@ -108,8 +110,8 @@ namespace Loops {
     bool _running = false;
     bool _start = false;
     Timing::RBCTimer::time_stamp _now;
-    Timing::RBCTimer::time_stamp _next;
     Timing::RBCTimer::time_stamp _prev;
+    Timing::FrequencyController _freq_controller;
 
     void manual_update(); // will update without updating frequency on thread
     std::string _systemName;

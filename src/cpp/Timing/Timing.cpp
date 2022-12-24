@@ -4,11 +4,6 @@
 #include <thread>
 #include <iomanip>
 
-#ifdef RBC_PLATFORM_UNIX
-#include <time.h>
-#include <unistd.h>
-#endif
-
 
 using namespace RBC::Timing;
 
@@ -30,32 +25,15 @@ double RBCTimer::getTimestamp_s() {
 }
 
 void RBCTimer::sleepUntil(time_stamp time) {
-  #ifdef RBC_PLATFORM_LINUX
-    struct timespec ts;
-    ts.tv_sec = 0;
-    ts.tv_nsec = getDuration_nano(clock::now(), time);
-    clock_nanosleep(CLOCK_MONOTONIC, 0, &ts, NULL);
-  #elif defined(RBC_PLATFORM_MACOS)
-    struct timespec ts;
-    ts.tv_sec = 0;
-    ts.tv_nsec = getDuration_nano(clock::now(), time);
-    nanosleep(&ts, NULL);
-  #elif defined(RBC_PLATFORM_WINDOWS)
-
-    Sleep()
-  #else
-    while (clock::now() < time) continue;
-  #endif
+  std::this_thread::sleep_until(time);
 }
 
 void RBCTimer::sleepFor(duration time) {
-  // auto t = clock::now();
-  // while ((clock::now() - t).count() < time.count()) continue;
+  std::this_thread::sleep_for(d_ms(time));
 }
 
 void RBCTimer::sleepFor(double time) {
-  // auto t = clock::now();
-  // while ((clock::now() - t).count() < time) continue;
+  std::this_thread::sleep_for(d_ms(time));
 }
 
 long long RBCTimer::getDuration_nano(time_stamp first, time_stamp second) {

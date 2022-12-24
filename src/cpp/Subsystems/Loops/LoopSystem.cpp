@@ -5,32 +5,22 @@
 #include "Logging/Print.h"
 #include "PlatformUtils/Platform.h"
 
-#ifdef RBS_PLATFORM_WINDOWS
-#include <windows.h>
-LARGE_INTEGER frequency, start, current;
-
-QueryPerformanceFrequency(&frequency);
-QueryPerformanceCounter(&start);
-#endif
-
 using namespace RBC::Subsystems::Loops;
 using namespace RBC::Timing;
 using namespace std::chrono;
 
-
-
 void LoopSystem::setLoop(unsigned int hz) {
   if (hz > 0 && hz < 1000000) {
     _freq = hz;
+    _freq_controller.init(_freq);
   }
 }
 
 void LoopSystem::updateLoop() {
   if (!_start) return;
   if (!_running) {
-    _next = RBCTimer::getSystemTimestamp();
-    _prev = _next - (1000ms/std::max(1u, _freq));
     _now = RBCTimer::getSystemTimestamp();
+    _prev = _now - (1000ms/std::max(1u, _freq));
     _running = true;
   }
   _prev = _now;
@@ -40,10 +30,7 @@ void LoopSystem::updateLoop() {
   _dt = dt;
   onLoopUpdate(dt);
 
-  if (_freq > 0) {
-    _next += (1000ms/_freq);
-    RBCTimer::sleepUntil(_next);
-  }
+  _freq_controller.sleep_to_next_epoch(); // make thread sleep
 }
 
 void LoopSystem::manual_update() {

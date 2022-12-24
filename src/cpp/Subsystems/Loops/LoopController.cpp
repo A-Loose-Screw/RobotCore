@@ -23,11 +23,13 @@ void LoopController::init() {
     highest_frequency = loop.system->_freq > highest_frequency ? loop.system->_freq : highest_frequency;
   }
 
-  _control_loop_frequency = highest_frequency;
+  std::cout << "Control loop freq: " << _control_loop_frequency << std::endl;
 
-  _next = RBCTimer::getSystemTimestamp();
-  _prev = _next - (1000ms/std::max(1u, _control_loop_frequency));
+  _control_loop_frequency = highest_frequency;
+  _freq_controller.init(_control_loop_frequency);
+
   _now = RBCTimer::getSystemTimestamp();
+  _prev = _now - (1000ms/std::max(1u, _control_loop_frequency));
 
   for (auto &asyncLoop : _asyncLoopList) {
     asyncLoop.start();
@@ -66,10 +68,7 @@ void LoopController::updateLoopController() {
   }
   // Loop Code End
 
-  if (_control_loop_frequency > 0) {
-    _next += (1000ms/_control_loop_frequency);
-    RBCTimer::sleepUntil(_next);
-  }
+  _freq_controller.sleep_to_next_epoch();
 }
 
 void LoopController::AsyncLoop::loop() {

@@ -73,8 +73,8 @@ namespace Loops {
   
     private:
     Timing::RBCTimer::time_stamp _now;
-    Timing::RBCTimer::time_stamp _next;
     Timing::RBCTimer::time_stamp _prev;
+    Timing::FrequencyController _freq_controller;
 
     double _dt = 0;
 
