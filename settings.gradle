@@ -8,4 +8,11 @@
  * This project uses @Incubating APIs which are subject to change.
  */
 
+rootDir.eachDirRecurse { dir ->
+  if (new File(dir, 'build.gradle').exists()) {
+    include dir.name
+    project(":${dir.name}").projectDir = dir
+  }
+}
+
 rootProject.name = 'RobotCore'
