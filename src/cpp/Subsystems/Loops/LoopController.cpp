@@ -23,8 +23,6 @@ void LoopController::init() {
     highest_frequency = loop.system->_freq > highest_frequency ? loop.system->_freq : highest_frequency;
   }
 
-  std::cout << "Control loop freq: " << _control_loop_frequency << std::endl;
-
   _control_loop_frequency = highest_frequency;
   _freq_controller.init(_control_loop_frequency);
 

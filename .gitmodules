@@ -1,0 +1,4 @@
+[submodule "CommBus"]
+  path = CommBus
+  url = https://github.com/A-Loose-Screw/CommBus.git
+  branch = master
